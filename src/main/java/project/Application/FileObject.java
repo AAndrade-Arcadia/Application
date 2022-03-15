@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @Getter
@@ -16,19 +18,41 @@ import java.util.Optional;
 @Component
 public class FileObject {
 
-    //TODO this always reverts to default
-    @Value("${filepath:/src/main/resources/testingResources/FibAllA.txt}")
+    @Value("${filepath}")
     private String filepath;
 
     public Optional<File> getFile() {
         if (filepath == null || filepath.isEmpty()) {
-            log.error("filepath is empty");
-        } else {
-            Optional<File> file = Optional.ofNullable(FileUtils.getFile(filepath));
-            if (file.isPresent()) {
-                return file;
-            } else log.error("file at filepath does not exist");
+            log.error("Filepath is not provided.");
+            return Optional.empty();
         }
-        return null;
+        /*String relativeFilepath = getRelativePath(filepath).get();
+        if (relativeFilepath == null || relativeFilepath.isEmpty()) {
+            log.error("Relative filepath is not valid: " + filepath);
+            return null;
+        }*/
+        Optional<File> file = Optional.ofNullable(FileUtils.getFile(filepath));
+        if (file.isEmpty()) {
+            log.error("File does not exist: " + filepath);
+            return Optional.empty();
+        } else {
+            return file;
+        }
+    }
+
+    private Optional<String> getRelativePath(String filepath) {
+        Path absFilepathPath = Paths.get(filepath);
+        File file = new File("TestFile.txt");
+        String absProjectStr = file.getAbsolutePath();
+        file.delete();
+        String rootOfFilepath = filepath.substring(0, filepath.indexOf('/'));
+        if (!absProjectStr.startsWith(rootOfFilepath)) {
+            log.error("Filepath does not contain root directory: " + filepath);
+            return Optional.empty();
+        }
+        Path absProjectPath = Paths.get(absProjectStr);
+        Path pathRelative = absProjectPath.relativize(absFilepathPath);
+        Optional<String> pathRelativeStr = Optional.ofNullable(pathRelative.toString());
+        return pathRelativeStr;
     }
 }

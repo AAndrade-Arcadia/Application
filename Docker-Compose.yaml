@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  my-service:
+    build:
+      context: .
+      args:
+        - filepath=${filepath}
+        - charToCount=${charToCount}
+    environment:
+      - filepath=${filepath}
+      - charToCount=${charToCount}

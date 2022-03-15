@@ -15,13 +15,11 @@ import java.util.TreeMap;
 class FileObjectCharCounterTest {
 
     @Autowired
-    private FileObject fileObjectTest;
-
-    @Autowired
     private FileObjectCharCounter fileObjectCharCounterTest;
 
     private final String testFilepathFibAllA = "./src/main/resources/testingResources/FibAllA.txt";
     private final String testFilepathFibNotAllA = "./src/main/resources/testingResources/FibNotAllA.txt";
+    // private final String testFileOutside = "/Users/alyssaandrade/Documents/FibAllA.rft";
 
     @Test
     public void testCountOccurrenceOfAInFileOnFibAllA() throws IOException {
@@ -33,7 +31,7 @@ class FileObjectCharCounterTest {
         expectedOutput.put(3, 5);
         expectedOutput.put(4, 8);
         Map<Integer, Integer> actualOutput = fileObjectCharCounterTest.countCharInFile(file);
-        Assertions.assertEquals(expectedOutput,actualOutput);
+        Assertions.assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
@@ -47,12 +45,7 @@ class FileObjectCharCounterTest {
         expectedOutput.put(3, 5);
         expectedOutput.put(4, 8);
         actualOutput = fileObjectCharCounterTest.countCharInFile(file);
-        Assertions.assertEquals(expectedOutput,actualOutput);
+        Assertions.assertEquals(expectedOutput, actualOutput);
     }
 
-    @Test
-    public void testFilePathNotEmpty() {
-        String actualOutput = fileObjectTest.getFilepath();
-        Assertions.assertNotNull(actualOutput);
-    }
 }

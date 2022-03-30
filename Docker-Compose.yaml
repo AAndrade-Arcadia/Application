@@ -1,11 +1,11 @@
 version: '3.7'
 services:
-  my-service:
+  application:
     build:
       context: .
-      args:
-        - filepath=${filepath}
-        - charToCount=${charToCount}
     environment:
       - filepath=${filepath}
       - charToCount=${charToCount}
+    volumes:
+      - $PWD/src/main/resources/mount:/Users/alyssaandrade/IdeaProjects/Docs
+      #/usr/local/application-resources

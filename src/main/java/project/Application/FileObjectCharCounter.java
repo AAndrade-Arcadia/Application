@@ -25,10 +25,11 @@ public class FileObjectCharCounter {
 
     public Map<Integer, Integer> countCharInFile(@NonNull File file) throws IOException {
         Map<Integer, Integer> lineMapToCount = new TreeMap<>();
-        if (!file.getAbsoluteFile().canRead()) {
-            log.error("File cannot be read: " + file.getAbsolutePath());
-        } else if (!file.getAbsoluteFile().exists()) {
-            log.error("File does not exist: " + file.getAbsolutePath());
+        if (!file.canRead()) {
+            log.error("File cannot be read: " + file.getName());
+        } else
+            if (!file.exists()) {
+            log.error("File does not exist: " + file.getName());
         } else {
             LineIterator lineItr = FileUtils.lineIterator(file);
             int lineNum = 0;

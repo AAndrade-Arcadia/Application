@@ -1,4 +1,4 @@
-package project.Application;
+package project.arcadia;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,31 +24,15 @@ public class FileObject {
             log.error("Filepath is not provided.");
             return Optional.empty();
         }
-
-        /*URL classResource = getClass().getClassLoader().getResource("testingResources/FibAllA.txt");
-        if (classResource==null) {
-            log.error("Class resource cannot be loaded: " + filename);
-            return  Optional.empty();
-        }*/
-        // /user/application-resources
         File file = FileUtils.getFile(filepath);
-        file.setReadable(true);
         if (!file.canRead()) {
             log.error("File cannot be read: " + filepath);
             return Optional.empty();
-        } else
-        if (!file.exists()) {
+        } else if (!file.exists()) {
             log.error("File does not exist: " + file.getName());
             return Optional.empty();
         }
-        Optional<File> fileOp = Optional.ofNullable(file);
-        //Optional<File> file = Optional.ofNullable(FileUtils.getFile(filepath));
-        if (fileOp.isEmpty()) {
-            log.error("File does not exist: " + filepath);
-            return Optional.empty();
-        } else {
-            return fileOp;
-        }
+        return Optional.of(file);
     }
 
 }

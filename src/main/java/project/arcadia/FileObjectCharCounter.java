@@ -1,4 +1,4 @@
-package project.Application;
+package project.arcadia;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -27,18 +27,14 @@ public class FileObjectCharCounter {
         Map<Integer, Integer> lineMapToCount = new TreeMap<>();
         if (!file.canRead()) {
             log.error("File cannot be read: " + file.getName());
-        } else
-            if (!file.exists()) {
+        } else if (!file.exists()) {
             log.error("File does not exist: " + file.getName());
         } else {
-            LineIterator lineItr = FileUtils.lineIterator(file);
             int lineNum = 0;
-            try {
+            try (LineIterator lineItr = FileUtils.lineIterator(file)) {
                 while (lineItr.hasNext()) {
                     lineMapToCount.put(lineNum++, countCharInLine(lineItr.next()));
                 }
-            } finally {
-                lineItr.close();
             }
         }
         return lineMapToCount;
